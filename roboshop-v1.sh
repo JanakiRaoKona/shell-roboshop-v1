@@ -18,4 +18,47 @@ do
     --output text)
     
     echo "Instance_id: ${instance_id}"
+
+    if [ $instance != "frontend" ] then
+        IP=$(aws ec2 describe-instances \
+            --instance-ids $instance_id \
+            --query "Reservations[*].Instances[*].PrivateIpAddress" \
+            --output text
+            )
+        r53_record="${instance}.${domain_name}"
+
+        
+    else
+        IP=$(aws ec2 describe-instances \
+            --instance-ids $instance_id \
+            --query "Reservations[*].Instances[*].PublicIpAddress" \
+            --output text
+            )  
+        r53_record="${domain_name}"
+    fi
+
+    # update Route 53 record 
+    # here Action: "UPSERT" means we can update the record if exist if not it will create new record  
+
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $hosted_zone_id \
+    --change-batch '{
+        "Changes": [
+            {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": "${r53_record}",
+                    "Type": "A",
+                    "TTL": 300,
+                    "ResourceRecords": [
+                        {
+                            "Value": "${IP}"
+                        }
+                    ]
+                }
+            }
+        ]
+    }'
+
+  
 done
