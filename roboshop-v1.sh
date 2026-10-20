@@ -40,6 +40,7 @@ do
 
     # update Route 53 record 
     # here Action: "UPSERT" means we can update the record if exist if not it will create new record  
+    # check with syntax prblm "'$IP'" 
 
     aws route53 change-resource-record-sets \
     --hosted-zone-id $hosted_zone_id \
@@ -53,7 +54,7 @@ do
                     "TTL": 300,
                     "ResourceRecords": [
                         {
-                            "Value": "${IP}"
+                            "Value": "'$IP'"
                         }
                     ]
                 }
