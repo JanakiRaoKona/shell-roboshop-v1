@@ -51,7 +51,7 @@ do
                 "ResourceRecordSet": {
                     "Name": "'$r53_record'",
                     "Type": "A",
-                    "TTL": 300,
+                    "TTL": 1,
                     "ResourceRecords": [
                         {
                             "Value": "'$IP'"
