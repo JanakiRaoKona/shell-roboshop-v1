@@ -25,7 +25,8 @@ do
             --query "Reservations[*].Instances[*].PrivateIpAddress" \
             --output text
             )
-        r53_record="${instance}.${domain_name}"   
+        r53_record="${instance}.${domain_name}"  
+        echo "Private_ip: ${IP}" 
     else
         IP=$(aws ec2 describe-instances \
             --instance-ids $instance_id \
@@ -33,6 +34,8 @@ do
             --output text
             )  
         r53_record="${domain_name}"
+        echo "Public_ip: ${IP}" 
+
     fi
 
     # update Route 53 record 
