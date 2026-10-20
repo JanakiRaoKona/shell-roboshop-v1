@@ -17,7 +17,7 @@ do
     --query "Instances[0].InstanceId" \
     --output text)
     
-    echo "Instance_id: ${instance_id}"
+    echo "${instance} Instance_id: ${instance_id}"
 
     if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances \
@@ -40,8 +40,8 @@ do
 
     # update Route 53 record 
     # here Action: "UPSERT" means we can update the record if exist if not it will create new record  
-    # check with syntax prblm "'$IP'" 
-
+    # check with syntax prblm "'$IP'" & "'r53_record'"
+    echo "Route 53 record: ${r53_record}"
     aws route53 change-resource-record-sets \
     --hosted-zone-id $hosted_zone_id \
     --change-batch '{
@@ -61,6 +61,6 @@ do
             }
         ]
     }'
-
+    echo "Updated route 53 record for $instance"
   
 done
