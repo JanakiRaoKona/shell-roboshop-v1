@@ -87,7 +87,7 @@ if [ $products_count -eq 0 ]; then
     mongosh --host "mongodb.$domain_name" </app/db/master-data.js &>> $logs_file
     validate $? "Loading products"
 else 
-    echo -e "Products are already loaded...${Y}SKIPPING${N}"
+    echo -e "$(time_stamp) [INFO] Products are already loaded...${Y}SKIPPING${N}"
 fi
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
