@@ -8,6 +8,7 @@ N="\e[0m"
 
 logs_folder="/var/log/roboshop"
 logs_file="${logs_folder}/${0}.log"
+domain_name=janakiraodevops.online
 
 if [ $user_id -ne 0 ]; then
     echo "Please run this script with sudo access..."
@@ -46,6 +47,28 @@ if [ $? -ne 0 ]; then
 else
     echo -e "$(time_stamp) [INFO] System user roboshop is already exists...${Y}SKIPPING${N}"
 fi
+
+mkdir -p /app &>> $logs_file
+validate $? "Creating app directory"
+
+curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
+validate $? "Downloading the catalogue" &>> $logs_file
+
+cd /app
+unzip /tmp/catalogue.zip &>> $logs_file
+validate $? "unzipping catalogue"
+
+npm install &>> $logs_file
+validate $? "Installing dependencies"
+
+sed -i 's/DOMAIN_NAME/$domain_name/g' catalogue.service
+
+cp catalogue.service /etc/systemd/system/catalogue.service
+
+systemctl daemon-reload &>> $logs_file
+systemctl enable catalogue &>> $logs_file
+systemctl start catalogue &>> $logs_file
+validate $? "enable and start catalogue"
 
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
