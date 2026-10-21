@@ -56,7 +56,7 @@ curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/robosho
 validate $? "Downloading the catalogue"
 
 cd /app
-unzip /tmp/catalogue.zip &>> $logs_file
+unzip -o /tmp/catalogue.zip &>> $logs_file
 validate $? "unzipping catalogue"
 
 npm install &>> $logs_file
