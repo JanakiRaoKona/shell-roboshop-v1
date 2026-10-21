@@ -74,8 +74,8 @@ systemctl enable catalogue &>> $logs_file
 systemctl start catalogue &>> $logs_file
 validate $? "enable and start catalogue"
 
-dnf install mongodb-mongosh -y &>> $logs_file
-validate $? "Installing mongodb"
+# dnf install mongodb-mongosh -y &>> $logs_file
+# validate $? "Installing mongodb"
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
 echo "$(time_stamp) [INFO] ==== Script completed execution ====" | tee -a $logs_file
