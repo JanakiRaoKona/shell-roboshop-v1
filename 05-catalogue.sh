@@ -9,7 +9,7 @@ N="\e[0m"
 logs_folder="/var/log/roboshop"
 logs_file="${logs_folder}/${0}.log"
 domain_name=janakiraodevops.online
-scripts_dir=$(dirname "$(realpath "${0}")")
+scripts_dir=$(dirname "$(realpath "$0")")
 
 if [ $user_id -ne 0 ]; then
     echo "Please run this script with sudo access..."
@@ -65,14 +65,17 @@ validate $? "unzipping catalogue"
 npm install &>> $logs_file
 validate $? "Installing dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name" "${script_dir}/catalogue.service"
+sed -i "s/DOMAIN_NAME/$domain_name" "$scripts_dir/catalogue.service"
 
-cp "${script_dir}/catalogue.service" /etc/systemd/system/catalogue.service
+cp "${scripts_dir}/catalogue.service" /etc/systemd/system/catalogue.service
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable catalogue &>> $logs_file
 systemctl start catalogue &>> $logs_file
 validate $? "enable and start catalogue"
+
+dnf install mongodb-mongosh -y
+validate $? "Installing mongodb"
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
 echo "$(time_stamp) [INFO] ==== Script completed execution ====" | tee -a $logs_file
