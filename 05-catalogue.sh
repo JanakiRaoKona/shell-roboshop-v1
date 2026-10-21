@@ -49,6 +49,9 @@ else
     echo -e "$(time_stamp) [INFO] System user roboshop is already exists...${Y}SKIPPING${N}"
 fi
 
+rm -rf /app
+validate $? "remove old code"
+
 mkdir -p /app &>> $logs_file
 validate $? "Creating app directory"
 
@@ -56,7 +59,7 @@ curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/robosho
 validate $? "Downloading the catalogue"
 
 cd /app
-unzip -o /tmp/catalogue.zip &>> $logs_file
+unzip /tmp/catalogue.zip &>> $logs_file
 validate $? "unzipping catalogue"
 
 npm install &>> $logs_file
