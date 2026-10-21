@@ -9,6 +9,7 @@ N="\e[0m"
 logs_folder="/var/log/roboshop"
 logs_file="${logs_folder}/${0}.log"
 domain_name=janakiraodevops.online
+scripts_dir=$(dirname "$(realpath "${0}")")
 
 if [ $user_id -ne 0 ]; then
     echo "Please run this script with sudo access..."
@@ -52,7 +53,7 @@ mkdir -p /app &>> $logs_file
 validate $? "Creating app directory"
 
 curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip &>> $logs_file
-validate $? "Downloading the catalogue" &>> $logs_file
+validate $? "Downloading the catalogue"
 
 cd /app
 unzip /tmp/catalogue.zip &>> $logs_file
