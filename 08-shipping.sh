@@ -40,7 +40,7 @@ dnf module enable maven:3.9 -y &>> $logs_file
 dnf install maven java-25-openjdk-devel -y &>> $logs_file
 validate $? "Installing Java and Maven"
 
-alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
+alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java" &>> $logs_file
 validate "Setting java 25 as a default version"
 
 echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh
@@ -72,10 +72,10 @@ validate $? "unzipping shipping"
 mvn clean package &>> $logs_file
 validate $? "Installing dependencies"
 
-mv target/shipping.jar shipping.jar
+mv target/shipping.jar shipping.jar &>> $logs_file
 validate $? "Move shipping.jar file"
 
-dnf install mysql -y
+dnf install mysql -y &>> $logs_file
 validate $? "Installing SQL client"
 
 # mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/master-data.sql
