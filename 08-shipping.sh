@@ -78,10 +78,11 @@ validate $? "Move shipping.jar file"
 dnf install mysql -y &>> $logs_file
 validate $? "Installing SQL client"
 
-# mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/master-data.sql
 
-# mysql -u mysql.janakiraodevops.online -pRoboShop@1 -e "SELECT * FROM cities.cities;"
+# mysql -h mysql.janakiraodevops.online -u root -pRoboShop@1 -e "SELECT COUNT(*) FROM cities.cities;"
 
+mysql -h mysql.$domain_name -uroot -pRoboShop@1 < /app/db/master-data.sql
+validate $? "Loading the shipping data"
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
 
