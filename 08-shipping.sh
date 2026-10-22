@@ -45,7 +45,7 @@ validate $? "Setting java 25 as a default version"
 
 echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh
 source /etc/profile.d/java.sh
-echo $JAVA_HOME
+# echo $JAVA_HOME
 validate $? "Setting JAVA_HOME for Maven"
 
 id roboshop &>> $logs_file
