@@ -75,7 +75,7 @@ systemctl start user &>> $logs_file
 validate $? "enable and start user"
 
 systemctl restart user
-validate $?  "Restarting the mongodb"
+validate $?  "Restarting the user"
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
 echo "$(time_stamp) [INFO] ==== Script completed execution ====" | tee -a $logs_file

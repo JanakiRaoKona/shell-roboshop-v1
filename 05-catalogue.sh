@@ -49,7 +49,7 @@ else
     echo -e "$(time_stamp) [INFO] System user roboshop is already exists...${Y}SKIPPING${N}"
 fi
 
-rm -rf /app
+rm -rf /app  # this command is wrote for the restrict the error for unzip file when we run script multiple stime 
 validate $? "remove old code"
 
 mkdir -p /app &>> $logs_file
