@@ -40,8 +40,8 @@ dnf module enable maven:3.9 -y &>> $logs_file
 dnf install maven java-25-openjdk-devel -y &>> $logs_file
 validate $? "Installing Java and Maven"
 
-alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java" &>> $logs_file
-validate "Setting java 25 as a default version"
+alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
+validate $? "Setting java 25 as a default version"
 
 echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh
 source /etc/profile.d/java.sh
@@ -79,6 +79,9 @@ dnf install mysql -y &>> $logs_file
 validate $? "Installing SQL client"
 
 # mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/master-data.sql
+
+mysql -u mysql.janakiraodevops.online -pRoboShop@1 -e "SELECT * FROM cities.cities;"
+
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
 
