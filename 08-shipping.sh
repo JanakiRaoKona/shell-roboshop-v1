@@ -80,7 +80,7 @@ validate $? "Installing SQL client"
 
 # mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/db/master-data.sql
 
-mysql -u mysql.janakiraodevops.online -pRoboShop@1 -e "SELECT * FROM cities.cities;"
+# mysql -u mysql.janakiraodevops.online -pRoboShop@1 -e "SELECT * FROM cities.cities;"
 
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
