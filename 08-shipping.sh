@@ -79,7 +79,7 @@ dnf install mysql -y &>> $logs_file
 validate $? "Installing SQL client"
 
 
-count=$(mysql -h mysql.janakiraodevops.online -u root -pRoboShop@1 -N -B -e "SELECT COUNT(*) FROM cities.cities;" &>> $logs_file)
+count=$(mysql -h mysql.janakiraodevops.online -u root -pRoboShop@1 -N -B -e "SELECT COUNT(*) FROM cities.cities;" 2>> $logs_file)
 echo "${count}"
 # if [ -z "$count" ] || [ count -eq 0 ]; then
 #     mysql -h mysql.$domain_name -uroot -pRoboShop@1 < /app/db/master-data.sql
