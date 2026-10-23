@@ -79,10 +79,17 @@ dnf install mysql -y &>> $logs_file
 validate $? "Installing SQL client"
 
 
-# mysql -h mysql.janakiraodevops.online -u root -pRoboShop@1 -e "SELECT COUNT(*) FROM cities.cities;"
+count=$(mysql -h mysql.janakiraodevops.online -u root -pRoboShop@1 -N -B -e "SELECT COUNT(*) FROM cities.cities;" &>> $logs_file)
+echo "${count}"
+# if [ -z "$count" ] || [ count -eq 0 ]; then
+#     mysql -h mysql.$domain_name -uroot -pRoboShop@1 < /app/db/master-data.sql
+#     validate $? "Loading the shipping data"
+# else
+#     echo -e "$(time_stamp) [INFO] Master DB is already loaded...${Y}SKIPPING${N}"
+# fi
 
-mysql -h mysql.$domain_name -uroot -pRoboShop@1 < /app/db/master-data.sql
-validate $? "Loading the shipping data"
+# mysql -h mysql.$domain_name -uroot -pRoboShop@1 < /app/db/app-user.sql
+# validate $? "Creating App user"
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/shipping.service"
 
@@ -90,11 +97,8 @@ cp "${scripts_dir}/shipping.service" /etc/systemd/system/shipping.service
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable shipping &>> $logs_file
-systemctl start shipping &>> $logs_file
-validate $? "enable and start shipping"
-
-systemctl restart shipping
-validate $?  "Restarting the shipping"
+systemctl restart shipping &>> $logs_file
+validate $?  "Start & restart the shipping"
 
 echo "$(time_stamp) [INFO] excution completed in seconds ${SECONDS}" | tee -a $logs_file
 echo "$(time_stamp) [INFO] ==== Script completed execution ====" | tee -a $logs_file
