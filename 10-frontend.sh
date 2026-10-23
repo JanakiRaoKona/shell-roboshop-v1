@@ -55,7 +55,7 @@ validate $? "Downloading and unzipping frontend code"
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/roboshop.conf"
 cp "${scripts_dir}/roboshop.conf" /etc/nginx/default.d/roboshop.conf
-valid $? "Copied roboshop config"
+validate $? "Copied roboshop config"
 
 nginx -t &>> $logs_file
 validate $? "Nginx configuration"
